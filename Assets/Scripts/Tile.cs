@@ -27,4 +27,36 @@ public class Tile : MonoBehaviour
     public Image icon;
 
     public Button button;
+
+    public Tile Left => x > 0 ? Board.Instance.Tiles[x - 1, y] : null;
+    public Tile Top => y > 0 ? Board.Instance.Tiles[x , y - 1] : null;
+    public Tile Right => x < Board.Instance.Width - 1 ? Board.Instance.Tiles[x + 1 , y] : null;
+    public Tile Down => y < Board.Instance.Height - 1 ? Board.Instance.Tiles[x, y + 1] : null;
+
+    public Tile[] Neighbours => new []
+    {
+        Left,
+        Top,
+        Right,
+        Down
+    }; 
+
+
+    private void Start() => button.onClick.AddListener( () => Board.Instance.Select(this));
+
+    public List<Tile> getConnectedTiles(List<Tile> exclude = null) 
+    { 
+        var result = new List<Tile> { this, };
+
+        if (exclude == null) 
+        { 
+            exclude = new List<Tile> { this, };
+        }
+        else
+        {
+            exclude.Add(this);
+        }
+        //foreach
+        return result;
+    }
 }
