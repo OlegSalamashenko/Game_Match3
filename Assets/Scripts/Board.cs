@@ -45,6 +45,16 @@ public class Board : MonoBehaviour
             
     }
 
+    private void Update()
+    {
+        if (!Input.GetKeyDown(KeyCode.A)) return;
+
+        foreach (var connectedTile in Tiles[0,0].GetConnectedTiles())
+        {
+            connectedTile.icon.transform.DOScale(1.25f, TweenDuration).Play();
+        }
+    }
+
     public async void Select(Tile tile) 
     {
         if (!_selection.Contains(tile)) _selection.Add(tile);

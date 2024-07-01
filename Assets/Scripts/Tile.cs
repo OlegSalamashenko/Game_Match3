@@ -44,7 +44,8 @@ public class Tile : MonoBehaviour
 
     private void Start() => button.onClick.AddListener( () => Board.Instance.Select(this));
 
-    public List<Tile> getConnectedTiles(List<Tile> exclude = null) 
+
+    public List<Tile> GetConnectedTiles(List<Tile> exclude = null) 
     { 
         var result = new List<Tile> { this, };
 
@@ -56,7 +57,14 @@ public class Tile : MonoBehaviour
         {
             exclude.Add(this);
         }
-        //foreach
+
+        foreach (var neighbour in Neighbours)
+        {
+            if (neighbour == null || exclude.Contains(neighbour) || neighbour.Item != Item) continue;
+
+            result.AddRange(neighbour.GetConnectedTiles(exclude));
+        }
+
         return result;
     }
 }
